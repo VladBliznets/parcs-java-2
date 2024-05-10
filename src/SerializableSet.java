@@ -1,15 +1,15 @@
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
-import java.util.HashSet;
 
-public class SerializableSet implements Serializable {
-    private Set<Integer> set;
+public class SerializableSubsets implements Serializable {
+    private List<Set<Integer>> subsets;
 
-    public SerializableSet(Set<Integer> set) {
-        this.set = set;
+    public SerializableSubsets(List<Set<Integer>> subsets) {
+        this.subsets = subsets;
     }
 
-    public Set<Integer> getSet() {
-        return set;
+    public List<Set<Integer>> getSubsets() {
+        return subsets;
     }
 }
