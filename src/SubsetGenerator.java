@@ -1,36 +1,39 @@
-import parcs.*;
+import parcs.AM;
+import parcs.AMInfo;
+import parcs.channel;
+import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Scanner;
-import java.io.File;
+import java.util.ArrayList;
 
-public class Main {
-    public static Set<Integer> fromFile(String filename) throws Exception {
-        Scanner sc = new Scanner(new File(filename));
-        Set<Integer> set = new HashSet<>();
-        while (sc.hasNextInt()) {
-            set.add(sc.nextInt());
+public class SubsetGenerator implements AM {
+    public void run(AMInfo info) {
+        try {
+            SerializableSet serializableSet = (SerializableSet) info.parent.readObject();
+            Set<Integer> set = serializableSet.getSet();
+            List<Set<Integer>> subsets = generateSubsets(set);
+            SerializableSubsets serializableSubsets = new SerializableSubsets(subsets);
+            info.parent.write(serializableSubsets);
+        } catch (Exception e) {
+            System.err.println("Error during subset generation: " + e.getMessage());
+            e.printStackTrace();
         }
-        sc.close();
-        return set;
     }
 
-    public static void main(String[] args) throws Exception {
-        task curtask = new task();
-        curtask.addJarFile("SubsetGenerator.jar");
+    private List<Set<Integer>> generateSubsets(Set<Integer> set) {
+        List<Set<Integer>> subsets = new ArrayList<>();
+        int n = set.size();
+        List<Integer> list = new ArrayList<>(set);
 
-        Set<Integer> set = fromFile(curtask.findFile("input"));
-        SerializableSet serializableSet = new SerializableSet(set);
-
-        point p = new point(curtask, 0);
-        channel c = p.createChannel();
-        p.execute("SubsetGenerator");
-        c.write(serializableSet);
-
-        SerializableSubsets receivedSubsets = (SerializableSubsets) c.readObject();
-        List<Set<Integer>> subsets = receivedSubsets.getSubsets();
-        System.out.println("Received subsets: " + subsets);
-        curtask.end();
+        for (int i = 0; i < (1 << n); i++) {
+            Set<Integer> subset = new HashSet<>();
+            for (int j = 0; j < n; j++) {
+                if ((i & (1 << j)) != 0) {
+                    subset.add(list.get(j));
+                }
+            }
+            subsets.add(subset);
+        }
+        return subsets;
     }
 }
