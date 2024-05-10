@@ -1,14 +1,15 @@
 all: run
 
 clean:
-	rm -f out/SubsetGenerator.jar
-            
-out/SubsetGenerator.jar: out/parcs.jar src/Main.java src/SubsetGenerator.java src/SerializableSet.java src/SerializableSubsets.java
-	@javac -cp out/parcs.jar src/Main.java src/SubsetGenerator.java src/SerializableSet.java src/SerializableSubsets.java
-	@jar cf out/SubsetGenerator.jar -C src Main.class -C src SubsetGenerator.class -C src SerializableSet.class -C src SerializableSubsets.class
-	@rm -f src/Main.class src/SubsetGenerator.class src/SerializableSet.class src/SerializableSubsets.class
+	rm -f out/Sort.jar
 
-build: out/SubsetGenerator.jar
+out/Sort.jar: out/parcs.jar src/Sort.java
+	@mkdir -p temp
+	@javac -cp out/parcs.jar -d temp src/Sort.java
+	@jar cf out/Sort.jar -C temp .
+	@rm -rf temp/
 
-run: out/SubsetGenerator.jar
-	@cd out && java -cp 'parcs.jar:SubsetGenerator.jar' Main
+build: out/Sort.jar
+
+run: out/Sort.jar
+	@cd out && java -cp 'parcs.jar:Sort.jar' Sort $(WORKERS)
