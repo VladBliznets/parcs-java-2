@@ -1,12 +1,4 @@
 import parcs.*;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.List;
-import java.util.Scanner;
-import java.io.File;
-import parcs.task;
-import parcs.point;
-import parcs.channel;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.List;
@@ -29,11 +21,12 @@ public class Main {
         curtask.addJarFile("SubsetGenerator.jar");
 
         Set<Integer> set = fromFile(curtask.findFile("input"));
+        SerializableSet serializableSet = new SerializableSet(set);  // Создаем сериализуемый объект
 
         point p = new point(curtask, 0);
         channel c = p.createChannel();
         p.execute("SubsetGenerator");
-        c.write(set);
+        c.write(serializableSet);  // Передаем сериализуемый объект
 
         List<Set<Integer>> subsets = (List<Set<Integer>>) c.readObject();
         System.out.println("Received subsets: " + subsets);
