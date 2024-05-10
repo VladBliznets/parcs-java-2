@@ -12,15 +12,16 @@ public class Main {
         curtask.addJarFile("SubsetGenerator.jar");
 
         Set<Integer> set = fromFile(curtask.findFile("input"));
+        List<Set<Integer>> parts = splitSet(set, 4);  // Делим множество на 4 части
 
         List<point> points = new ArrayList<>();
         List<channel> channels = new ArrayList<>();
 
-        for (Integer element : set) {
+        for (Set<Integer> part : parts) {
             point p = new point(curtask, 0);
             channel c = p.createChannel();
             p.execute("SubsetGenerator");
-            c.write(new SerializableSet(new HashSet<>(Set.of(element))));
+            c.write(new SerializableSet(part));  // Отправляем часть множества
             points.add(p);
             channels.add(c);
         }
@@ -43,5 +44,19 @@ public class Main {
         }
         sc.close();
         return set;
+    }
+
+    private static List<Set<Integer>> splitSet(Set<Integer> originalSet, int partsCount) {
+        List<Set<Integer>> parts = new ArrayList<>();
+        int index = 0;
+        List<Integer> list = new ArrayList<>(originalSet);
+        for (int i = 0; i < partsCount; i++) {
+            parts.add(new HashSet<>());
+        }
+        for (Integer item : list) {
+            parts.get(index % partsCount).add(item);
+            index++;
+        }
+        return parts;
     }
 }
