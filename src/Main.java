@@ -4,6 +4,14 @@ import java.util.Set;
 import java.util.List;
 import java.util.Scanner;
 import java.io.File;
+import parcs.task;
+import parcs.point;
+import parcs.channel;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.List;
+import java.io.File;
+import java.util.Scanner;
 
 public class Main {
     public static Set<Integer> fromFile(String filename) throws Exception {
