@@ -1,9 +1,8 @@
-import parcs.*;
 import java.util.Set;
 import java.util.HashSet;
-import java.util.List;
-import java.io.File;
 import java.util.Scanner;
+import java.io.File;
+import parcs.*;
 
 public class Main {
     public static Set<Integer> fromFile(String filename) throws Exception {
@@ -28,8 +27,8 @@ public class Main {
         p.execute("SubsetGenerator");
         c.write(serializableSet);  // Передаем сериализуемый объект
 
-        List<Set<Integer>> subsets = (List<Set<Integer>>) c.readObject();
-        System.out.println("Received subsets: " + subsets);
+        SerializableSubsets receivedSubsets = (SerializableSubsets) c.readObject();
+        System.out.println("Received subsets: " + receivedSubsets.getSubsets());
         curtask.end();
     }
 }
