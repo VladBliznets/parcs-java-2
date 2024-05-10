@@ -47,16 +47,20 @@ public class Main {
     }
 
     private static List<Set<Integer>> splitSet(Set<Integer> originalSet, int partsCount) {
-        List<Set<Integer>> parts = new ArrayList<>();
-        int index = 0;
-        List<Integer> list = new ArrayList<>(originalSet);
-        for (int i = 0; i < partsCount; i++) {
-            parts.add(new HashSet<>());
-        }
-        for (Integer item : list) {
-            parts.get(index % partsCount).add(item);
-            index++;
-        }
-        return parts;
+    List<Set<Integer>> parts = new ArrayList<>();
+    int totalElements = originalSet.size();
+    int partSize = totalElements / partsCount;
+    int remainingElements = totalElements % partsCount;
+    List<Integer> elements = new ArrayList<>(originalSet);
+
+    int start = 0;
+    for (int i = 0; i < partsCount; i++) {
+        int size = partSize + (i < remainingElements ? 1 : 0);
+        Set<Integer> part = new HashSet<>(elements.subList(start, start + size));
+        parts.add(part);
+        start += size;
     }
+    return parts;
+}
+
 }
