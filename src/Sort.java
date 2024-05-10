@@ -47,7 +47,7 @@ private static int partition(int[] arr, int begin, int end) {
         System.err.println("Preparing...");
         startTimer();
         if (args.length != 1) {
-            System.err.println("Usage: Sort 2");
+            System.err.println("Usage: Sort <number-of-workers>");
             System.exit(1);
         }
 
