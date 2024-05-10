@@ -1,21 +1,17 @@
 import parcs.*;
-import parcs.AM;
-import parcs.AMInfo;
-import parcs.channel;
-import parcs.point;
-import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
-import java.util.List;
 import java.util.ArrayList;
 
 public class SubsetGenerator implements AM {
     public void run(AMInfo info) {
         try {
-            Set<Integer> set = (Set<Integer>) info.parent.readObject();
+            SerializableSet serializableSet = (SerializableSet) info.parent.readObject();
+            Set<Integer> set = serializableSet.getSet();
             List<Set<Integer>> subsets = generateSubsets(set);
-            System.out.println("Generated subsets for " + set);
-            info.parent.write(subsets);
+            SerializableSubsets serializableSubsets = new SerializableSubsets(subsets);
+            info.parent.write(serializableSubsets);
         } catch (Exception e) {
             System.err.println("Error during subset generation: " + e.getMessage());
             e.printStackTrace();
