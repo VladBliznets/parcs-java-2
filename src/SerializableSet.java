@@ -1,5 +1,6 @@
 import java.io.Serializable;
 import java.util.Set;
+import java.util.HashSet;
 
 public class SerializableSet implements Serializable {
     private Set<Integer> set;
