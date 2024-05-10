@@ -18,13 +18,16 @@ public class Main {
         List<channel> channels = new ArrayList<>();
 
         for (Set<Integer> part : parts) {
+            System.out.println("Part size: " + part.size() + " Elements: " + part); // Только для отладки
             point p = new point(curtask, 0);
             channel c = p.createChannel();
             p.execute("SubsetGenerator");
-            c.write(new SerializableSet(part));  // Отправляем часть множества
+            c.write(new SerializableSet(part));
             points.add(p);
             channels.add(c);
         }
+
+        
 
         List<Set<Integer>> allSubsets = new ArrayList<>();
         for (channel c : channels) {
