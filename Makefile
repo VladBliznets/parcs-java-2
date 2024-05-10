@@ -1,3 +1,5 @@
+WORKERS=4
+
 all: run
 
 clean:
