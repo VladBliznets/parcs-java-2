@@ -139,26 +139,6 @@ private static int partition(int[] arr, int begin, int end) {
 }
 
 
-    public static int[] mergeLinear(int[][] parts) {
-        int totalSize = 0;
-        for (int[] part : parts)
-            totalSize += part.length;
-
-        int[] arr = new int[totalSize];
-        int[] indices = new int[parts.length];
-        for (int i = 0; i < totalSize; i++) {
-            int minValue = Integer.MAX_VALUE;
-            int chosenIndex = -1;
-            for (int j = 0; j < parts.length; j++)
-                if (indices[j] < parts[j].length && parts[j][indices[j]] <= minValue) {
-                    minValue = parts[j][indices[j]];
-                    chosenIndex = j;
-                }
-            arr[i] = minValue;
-            indices[chosenIndex]++;
-        }
-        return arr;
-    }
 
     static class HeapItem implements Comparable<HeapItem> {
         int[] part;
